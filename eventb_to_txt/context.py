@@ -9,6 +9,7 @@ from eventb_to_txt.abstract import EventBComponent
 
 
 class Context(EventBComponent):
+    CONTEXT_FILE = 'org.eventb.core.contextFile'
     EXTENDS = 'org.eventb.core.extendsContext'
     SET = 'org.eventb.core.carrierSet'
     AXIOM = 'org.eventb.core.axiom'
@@ -16,17 +17,21 @@ class Context(EventBComponent):
 
     def __init__(self, context):
         self.context = context
-        self.context_name = os.path.basename(os.path.splitext(self.context)[0])
-
         self.extends = ''
         self.sets = []
         self.axioms = []
         self.constants = []
 
+        self.context_head = dict()
+        self.context_head['name'] = os.path.basename(os.path.splitext(self.context)[0])
+
         self.__parse()
 
     def __parse(self):
         root = ET.parse(self.context).getroot()
+
+        if self.COMMENT in root.attrib:
+            self.context_head['comment'] = root.attrib[self.COMMENT]
 
         for child in root:
             tag = child.tag
@@ -72,14 +77,10 @@ class Context(EventBComponent):
         self.axioms.append(axiom)
 
     def print(self, out_path):
-        context_txt = os.path.join(out_path, self.context_name + ".txt")
+        context_txt = os.path.join(out_path, self.context_head['name'] + ".txt")
 
         with open(context_txt, 'w') as f:
-            f.write('context ' + self.context_name)
-            if self.extends:
-                f.write(' extends ' + self.extends)
-            f.write('\n\n')
-
+            self.__print_context_head(f)
             self.__print_sets(f)
             self.__print_constants(f)
             self.__print_axioms(f)
@@ -87,6 +88,15 @@ class Context(EventBComponent):
             f.write('end\n')
 
         return context_txt
+
+    def __print_context_head(self, f):
+        f.write('context ' + self.context_head['name'])
+
+        self._print_comment(self.context_head, f)
+
+        if self.extends:
+            f.write(self.TAB + 'extends ' + self.extends + '\n')
+        f.write('\n')
 
     def __print_sets(self, f):
         if not self.sets:
