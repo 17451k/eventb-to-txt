@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<org.eventb.core.machineFile org.eventb.core.comment="comment" org.eventb.core.configuration="org.eventb.core.fwd" version="5">
+<org.eventb.core.refinesMachine name="'" org.eventb.core.target="M0"/>
+<org.eventb.core.seesContext name="-" org.eventb.core.target="C1"/>
+<org.eventb.core.variable name="(" org.eventb.core.identifier="var1"/>
+<org.eventb.core.variable name=")" org.eventb.core.identifier="var2"/>
+<org.eventb.core.event name="." org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="INITIALISATION"/>
+<org.eventb.core.event name="/" org.eventb.core.comment="comment" org.eventb.core.convergence="2" org.eventb.core.extended="true" org.eventb.core.label="evt1">
+<org.eventb.core.refinesEvent name="'" org.eventb.core.target="evt1"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="0" org.eventb.core.convergence="1" org.eventb.core.extended="false" org.eventb.core.label="evt2">
+<org.eventb.core.refinesEvent name="'" org.eventb.core.target="evt1"/>
+<org.eventb.core.parameter name="'" org.eventb.core.identifier="prm2"/>
+<org.eventb.core.guard name="(" org.eventb.core.label="grd1" org.eventb.core.predicate="prm2=1"/>
+<org.eventb.core.action name=")" org.eventb.core.assignment="var1≔var1−prm2" org.eventb.core.label="act1"/>
+<org.eventb.core.action name="*" org.eventb.core.assignment="var2≔{1}" org.eventb.core.label="act2"/>
+<org.eventb.core.guard name="-" org.eventb.core.label="grd2" org.eventb.core.predicate="var1≠prm2"/>
+<org.eventb.core.guard name="," org.eventb.core.label="grd3" org.eventb.core.predicate="var1&gt;0"/>
+<org.eventb.core.witness name="." org.eventb.core.comment="comment" org.eventb.core.label="prm1" org.eventb.core.predicate="prm1=prm2"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="1" org.eventb.core.convergence="0" org.eventb.core.extended="false" org.eventb.core.label="evt3"/>
+</org.eventb.core.machineFile>

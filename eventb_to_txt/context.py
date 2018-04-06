@@ -86,6 +86,8 @@ class Context(EventBComponent):
 
             f.write('end\n')
 
+        return context_txt
+
     def __print_sets(self, f):
         if not self.sets:
             return

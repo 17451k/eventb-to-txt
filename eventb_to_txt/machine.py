@@ -200,6 +200,8 @@ class Machine(EventBComponent):
 
             f.write('end\n')
 
+        return machine_txt
+
     def __print_variables(self, f):
         if not self.variables:
             return

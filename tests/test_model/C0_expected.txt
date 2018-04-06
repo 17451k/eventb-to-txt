@@ -1,0 +1,20 @@
+context C0
+
+sets
+    set1 // comment
+    set2
+
+constants
+    cst1 // comment
+    cst2
+
+axioms
+    @axm1
+        cst1∈set1 // comment
+    @axm2
+        cst2∈set2
+
+    theorem @axm3
+        TRUE≠FALSE // comment
+
+end

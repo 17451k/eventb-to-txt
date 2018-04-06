@@ -1,0 +1,33 @@
+machine M1 // comment
+    refines M0
+    sees C1
+
+variables
+    var1
+    var2
+
+events
+    event INITIALISATION extends INITIALISATION
+    end
+
+    anticipated event evt1 extends evt1 // comment
+    end
+
+    convergent event evt2 refines evt1
+      any
+        prm2
+      where
+        @grd1 prm2=1
+        @grd2 var1≠prm2
+        @grd3 var1>0
+      with
+        @prm1 prm1=prm2 // comment
+      then
+        @act1 var1≔var1−prm2
+        @act2 var2≔{1}
+    end
+
+    event evt3
+    end
+
+end

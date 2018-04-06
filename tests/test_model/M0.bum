@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<org.eventb.core.machineFile org.eventb.core.configuration="org.eventb.core.fwd" version="5">
+<org.eventb.core.event name="'" org.eventb.core.comment="comment" org.eventb.core.convergence="0" org.eventb.core.extended="false" org.eventb.core.label="INITIALISATION">
+<org.eventb.core.action name="'" org.eventb.core.assignment="var1≔1" org.eventb.core.label="act1"/>
+<org.eventb.core.action name="(" org.eventb.core.assignment="var2≔{1}" org.eventb.core.label="act2"/>
+</org.eventb.core.event>
+<org.eventb.core.variable name="(" org.eventb.core.comment="comment" org.eventb.core.identifier="var1"/>
+<org.eventb.core.variable name=")" org.eventb.core.identifier="var2"/>
+<org.eventb.core.invariant name="*" org.eventb.core.comment="comment" org.eventb.core.label="inv1" org.eventb.core.predicate="var1∈ℕ"/>
+<org.eventb.core.invariant name="+" org.eventb.core.comment="&#10;" org.eventb.core.label="inv2" org.eventb.core.predicate="var2⊆ℕ"/>
+<org.eventb.core.invariant name="," org.eventb.core.comment="comment" org.eventb.core.label="inv3" org.eventb.core.predicate="1∈ℕ" org.eventb.core.theorem="true"/>
+<org.eventb.core.event name="." org.eventb.core.convergence="1" org.eventb.core.extended="false" org.eventb.core.label="evt1">
+<org.eventb.core.parameter name="'" org.eventb.core.comment="comment" org.eventb.core.identifier="prm1"/>
+<org.eventb.core.guard name="(" org.eventb.core.label="grd1" org.eventb.core.predicate="prm1=1"/>
+<org.eventb.core.action name=")" org.eventb.core.assignment="var1≔var1−prm1" org.eventb.core.comment="comment" org.eventb.core.label="act1"/>
+<org.eventb.core.action name="*" org.eventb.core.assignment="var2≔{1}" org.eventb.core.label="act2"/>
+<org.eventb.core.guard name="-" org.eventb.core.comment="comment" org.eventb.core.label="grd2" org.eventb.core.predicate="var1≠prm1"/>
+<org.eventb.core.guard name="," org.eventb.core.label="grd3" org.eventb.core.predicate="var1&gt;0"/>
+</org.eventb.core.event>
+<org.eventb.core.variant name="/" org.eventb.core.comment="comment" org.eventb.core.expression="var1"/>
+</org.eventb.core.machineFile>

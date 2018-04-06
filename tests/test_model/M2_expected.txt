@@ -1,0 +1,7 @@
+machine M2
+
+events
+    event INITIALISATION
+    end
+
+end

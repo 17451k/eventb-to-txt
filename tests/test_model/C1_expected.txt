@@ -1,0 +1,4 @@
+context C1 // comment
+    extends C0
+
+end
