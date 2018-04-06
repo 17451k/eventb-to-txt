@@ -243,7 +243,8 @@ class Machine(EventBComponent):
         if not self.variant:
             return
 
-        f.write('variant ' + self.variant["expression"])
+        f.write('variant\n')
+        f.write(self.TAB + self.variant["expression"])
 
         self._print_comment(self.variant, f)
 
