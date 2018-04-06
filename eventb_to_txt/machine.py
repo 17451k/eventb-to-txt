@@ -27,8 +27,6 @@ class Machine(EventBComponent):
 
     def __init__(self, machine):
         self.machine = machine
-        self.machine_name = os.path.basename(os.path.splitext(self.machine)[0])
-
         self.sees = ''
         self.refines = ''
         self.variables = []
@@ -36,10 +34,16 @@ class Machine(EventBComponent):
         self.variant = dict()
         self.events = []
 
+        self.machine_head = dict()
+        self.machine_head['name'] = os.path.basename(os.path.splitext(self.machine)[0])
+
         self.__parse()
 
     def __parse(self):
         root = ET.parse(self.machine).getroot()
+
+        if self.COMMENT in root.attrib:
+            self.machine_head['comment'] = root.attrib[self.COMMENT]
 
         for child in root:
             tag = child.tag
@@ -183,16 +187,10 @@ class Machine(EventBComponent):
         event['actions'].append(action)
 
     def print(self, out_path):
-        machine_txt = os.path.join(out_path, self.machine_name + ".txt")
+        machine_txt = os.path.join(out_path, self.machine_head['name'] + ".txt")
 
         with open(machine_txt, 'w') as f:
-            f.write('machine ' + self.machine_name)
-            if self.refines:
-                f.write(' refines ' + self.refines)
-            if self.sees:
-                f.write(' sees ' + self.sees)
-            f.write('\n\n')
-
+            self.__print_machine_head(f)
             self.__print_variables(f)
             self.__print_invariants(f)
             self.__print_variant(f)
@@ -201,6 +199,17 @@ class Machine(EventBComponent):
             f.write('end\n')
 
         return machine_txt
+
+    def __print_machine_head(self, f):
+        f.write('machine ' + self.machine_head['name'])
+
+        self._print_comment(self.machine_head, f)
+
+        if self.refines:
+            f.write(self.TAB + 'refines ' + self.refines + '\n')
+        if self.sees:
+            f.write(self.TAB + 'sees ' + self.sees + '\n')
+        f.write('\n')
 
     def __print_variables(self, f):
         if not self.variables:
