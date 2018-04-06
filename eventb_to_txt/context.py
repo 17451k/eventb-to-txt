@@ -9,7 +9,6 @@ from eventb_to_txt.abstract import EventBComponent
 
 
 class Context(EventBComponent):
-    CONTEXT_FILE = 'org.eventb.core.contextFile'
     EXTENDS = 'org.eventb.core.extendsContext'
     SET = 'org.eventb.core.carrierSet'
     AXIOM = 'org.eventb.core.axiom'
