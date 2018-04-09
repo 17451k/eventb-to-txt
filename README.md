@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/17451k/eventb-to-txt.svg?branch=master)](https://travis-ci.org/17451k/eventb-to-txt)
+[![Coverage Status](https://coveralls.io/repos/github/17451k/eventb-to-txt/badge.svg?branch=master)](https://coveralls.io/github/17451k/eventb-to-txt?branch=master)
 
 # Event-B to txt converter
 

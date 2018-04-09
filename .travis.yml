@@ -3,8 +3,11 @@ python:
   - "3.4"
   - "3.5"
   - "3.6"
-install:
-  - pip install -r requirements.txt
 script:
-  - pytest
+  - pip install coveralls
+  - coverage run --source eventb_to_txt -m pytest
+  - coverage report -m
   - pip install .
+
+after_success:
+  - coveralls
