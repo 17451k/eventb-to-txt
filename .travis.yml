@@ -3,10 +3,10 @@ python:
   - "3.4"
   - "3.5"
   - "3.6"
-script:
+install:
   - pip install coveralls
+script:
   - coverage run --source eventb_to_txt -m pytest
   - pip install .
-
 after_success:
   - coveralls
