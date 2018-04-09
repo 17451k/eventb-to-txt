@@ -43,6 +43,12 @@ class TestMachine(utils.EventBTestCase):
 
         self.compare_machine(M, M_expected)
 
+    def test_model_M3(self):
+        M = os.path.join(test_model, 'M3.bum')
+        M_expected = os.path.join(test_model, 'M3_expected.txt')
+
+        self.compare_machine(M, M_expected)
+
 
 if __name__ == '__main__':
     unittest.main()
