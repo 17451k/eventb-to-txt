@@ -2,10 +2,8 @@
 # Use of this source code is governed by the MIT license that can be
 # found in the LICENSE file.
 
-from abc import ABC, abstractmethod
 
-
-class EventBComponent(ABC):
+class EventBComponent():
     COMMENT = 'org.eventb.core.comment'
     ID = 'org.eventb.core.identifier'
     LABEL = 'org.eventb.core.label'
@@ -25,7 +23,3 @@ class EventBComponent(ABC):
             f.write(data['comment'])
 
         f.write('\n')
-
-    @abstractmethod
-    def to_txt(self):
-        pass
