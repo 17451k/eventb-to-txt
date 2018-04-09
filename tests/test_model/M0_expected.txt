@@ -30,6 +30,7 @@ events
         @grd1 prm1=1
         @grd2 var1≠prm1 // comment
         @grd3 var1>0
+        theorem @grd4 var1≠0
       then
         @act1 var1≔var1−prm1 // comment
         @act2 var2≔{1}
