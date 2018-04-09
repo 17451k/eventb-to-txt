@@ -7,7 +7,7 @@ import unittest
 
 import utils
 
-test_model = 'test_model'
+test_model = os.path.join(os.path.dirname(__file__), 'test_model')
 
 
 class TestContext(utils.EventBTestCase):
