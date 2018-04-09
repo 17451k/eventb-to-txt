@@ -19,13 +19,13 @@ class EventBTestCase(unittest.TestCase):
 
     def compare_context(self, context, expected):
         c = Context(context)
-        context_txt = c.print(os.path.dirname(expected))
+        context_txt = c.to_txt(os.path.dirname(expected))
 
         self.__compare(context_txt, expected)
 
     def compare_machine(self, machine, expected):
         m = Machine(machine)
-        machine_txt = m.print(os.path.dirname(expected))
+        machine_txt = m.to_txt(os.path.dirname(expected))
 
         self.__compare(machine_txt, expected)
 

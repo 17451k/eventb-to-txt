@@ -35,11 +35,11 @@ def main():
 
     for context_file in context_files:
         c = Context(context_file)
-        c.print(args.out_path)
+        c.to_txt(args.out_path)
 
     for machine_file in machine_files:
         m = Machine(machine_file)
-        m.print(args.out_path)
+        m.to_txt(args.out_path)
 
     print('Txt files were successfully generated')
 

@@ -186,7 +186,7 @@ class Machine(EventBComponent):
 
         event['actions'].append(action)
 
-    def print(self, out_path):
+    def to_txt(self, out_path):
         machine_txt = os.path.join(out_path, self.machine_head['name'] + ".txt")
 
         with open(machine_txt, 'w') as f:

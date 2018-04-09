@@ -27,5 +27,5 @@ class EventBComponent(metaclass=ABCMeta):
         f.write('\n')
 
     @abstractmethod
-    def print(self):
+    def to_txt(self):
         pass

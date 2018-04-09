@@ -75,7 +75,7 @@ class Context(EventBComponent):
 
         self.axioms.append(axiom)
 
-    def print(self, out_path):
+    def to_txt(self, out_path):
         context_txt = os.path.join(out_path, self.context_head['name'] + ".txt")
 
         with open(context_txt, 'w') as f:
