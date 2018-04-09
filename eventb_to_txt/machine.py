@@ -63,16 +63,10 @@ class Machine(EventBComponent):
                 self.__parse_event(attrs, child)
 
     def __parse_refines_machine(self, attrs):
-        if not self.refines:
-            self.refines = attrs[self.TARGET]
-        else:
-            self.refines += ' ' + attrs[self.TARGET]
+        self.refines = attrs[self.TARGET]
 
     def __parse_sees(self, attrs):
-        if not self.sees:
-            self.sees = attrs[self.TARGET]
-        else:
-            self.sees += ' ' + attrs[self.TARGET]
+        self.sees = attrs[self.TARGET]
 
     def __parse_variable(self, attrs):
         var = dict()
@@ -128,10 +122,7 @@ class Machine(EventBComponent):
             self.events.append(event)
 
     def __parse_refines(self, event, attrs):
-        if 'refines'not in event:
-            event['refines'] = attrs[self.TARGET]
-        else:
-            event['refines'] += ' ' + attrs[self.TARGET]
+        event['refines'] = attrs[self.TARGET]
 
     def __parse_parameter(self, event, attrs):
         parameter = dict()
