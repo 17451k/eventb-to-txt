@@ -2,10 +2,10 @@
 # Use of this source code is governed by the MIT license that can be
 # found in the LICENSE file.
 
-from abc import ABCMeta, abstractmethod
+from abc import ABC, abstractmethod
 
 
-class EventBComponent(metaclass=ABCMeta):
+class EventBComponent(ABC):
     COMMENT = 'org.eventb.core.comment'
     ID = 'org.eventb.core.identifier'
     LABEL = 'org.eventb.core.label'
