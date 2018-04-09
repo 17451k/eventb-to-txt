@@ -6,7 +6,6 @@ python:
 script:
   - pip install coveralls
   - coverage run --source eventb_to_txt -m pytest
-  - coverage report -m
   - pip install .
 
 after_success:
