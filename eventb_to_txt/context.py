@@ -16,7 +16,7 @@ class Context(EventBComponent):
 
     def __init__(self, context):
         self.context = context
-        self.extends = ''
+        self.extends = []
         self.sets = []
         self.axioms = []
         self.constants = []
@@ -37,7 +37,7 @@ class Context(EventBComponent):
             attrs = child.attrib
 
             if tag == self.EXTENDS:
-                self.extends = attrs[self.TARGET]
+                self.extends.append(attrs[self.TARGET])
             elif tag == self.SET:
                 self.__parse_set(attrs)
             elif tag == self.CONSTANT:
@@ -94,7 +94,13 @@ class Context(EventBComponent):
         self._print_comment(self.context_head, f)
 
         if self.extends:
-            f.write(self.TAB + 'extends ' + self.extends + '\n')
+            f.write(self.TAB + 'extends')
+
+            for extenders in self.extends:
+                f.write(' ' + extenders)
+
+            f.write('\n')
+
         f.write('\n')
 
     def __print_sets(self, f):

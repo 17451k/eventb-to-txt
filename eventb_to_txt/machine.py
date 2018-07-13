@@ -27,7 +27,7 @@ class Machine(EventBComponent):
 
     def __init__(self, machine):
         self.machine = machine
-        self.sees = ''
+        self.sees = []
         self.refines = ''
         self.variables = []
         self.invariants = []
@@ -66,7 +66,7 @@ class Machine(EventBComponent):
         self.refines = attrs[self.TARGET]
 
     def __parse_sees(self, attrs):
-        self.sees = attrs[self.TARGET]
+        self.sees.append(attrs[self.TARGET])
 
     def __parse_variable(self, attrs):
         var = dict()
@@ -198,8 +198,15 @@ class Machine(EventBComponent):
 
         if self.refines:
             f.write(self.TAB + 'refines ' + self.refines + '\n')
+
         if self.sees:
-            f.write(self.TAB + 'sees ' + self.sees + '\n')
+            f.write(self.TAB + 'sees')
+
+            for seers in self.sees:
+                f.write(' ' + seers)
+
+            f.write('\n')
+
         f.write('\n')
 
     def __print_variables(self, f):
