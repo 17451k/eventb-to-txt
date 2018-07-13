@@ -13,7 +13,7 @@ invalid_path = os.path.join(os.path.dirname(__file__), 'invalid_path')
 
 
 def test_main_ok(tmpdir):
-    main(["-i", test_model, "-o", tempfile.mkdtemp()])
+    main([test_model, "-o", tempfile.mkdtemp()])
 
 
 def test_main_no_model(tmpdir):
@@ -23,7 +23,7 @@ def test_main_no_model(tmpdir):
 
 def test_main_invalid_in(tmpdir):
     with pytest.raises(SystemExit):
-        main(["-i", invalid_path])
+        main([invalid_path])
 
 
 def test_main_invalid_out(tmpdir):

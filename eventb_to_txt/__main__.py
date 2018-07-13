@@ -14,12 +14,13 @@ from eventb_to_txt.machine import Machine
 
 
 def main(args=sys.argv[1:]):
-    arg_parser = argparse.ArgumentParser()
-    arg_parser.add_argument('-i', '--in', help='set PATH to the Event-B model directory. Default one is the current directory',
-                            dest='in_path', metavar='PATH', default=os.getcwd())
-    arg_parser.add_argument('-o', '--out', help='set PATH to the output directory. Default one is the current directory',
-                            dest='out_path', metavar='PATH', default=os.getcwd())
-    args = arg_parser.parse_args(args)
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-o', '--out', help='PATH to the output directory',
+                        dest='out_path', metavar='PATH', default=os.getcwd())
+    parser.add_argument(help="path to the Event-B model directory",
+                        dest="in_path", nargs=argparse.OPTIONAL, default=os.getcwd())
+
+    args = parser.parse_args(args)
 
     if not os.path.exists(args.in_path):
         sys.exit('"{}" path does not exist'.format(args.in_path))
