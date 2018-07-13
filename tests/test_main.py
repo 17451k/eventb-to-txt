@@ -4,7 +4,7 @@
 
 import os
 import pytest
-import tempfile
+import shutil
 
 from eventb_to_txt.__main__ import main
 
@@ -13,12 +13,12 @@ invalid_path = os.path.join(os.path.dirname(__file__), 'invalid_path')
 
 
 def test_main_ok(tmpdir):
-    main([test_model, "-o", tempfile.mkdtemp()])
+    main([test_model, "-o", str(tmpdir)])
 
 
 def test_main_no_model(tmpdir):
     with pytest.raises(SystemExit):
-        main([])
+        main(["/dev/null"])
 
 
 def test_main_invalid_in(tmpdir):
@@ -29,3 +29,8 @@ def test_main_invalid_in(tmpdir):
 def test_main_invalid_out(tmpdir):
     with pytest.raises(SystemExit):
         main(["-o", invalid_path])
+
+
+def test_main_zipfile(tmpdir):
+    test_zipfile = shutil.make_archive(os.path.join(str(tmpdir), "test_model"), "zip", root_dir=test_model)
+    main([test_zipfile, "-o", str(tmpdir)])
