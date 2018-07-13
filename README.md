@@ -9,17 +9,16 @@ Compatible with Event-B models created with Rodin 3.0 and above.
 
 # Installation
 
-Just clone the repository and run the following command from its root directory:
-
-    $ pip install .
+    $ pip install eventb-to-txt
 
 # Usage
 
-    usage: eventb-to-txt [-h] [-i PATH] [-o PATH]
+    usage: eventb-to-txt [-h] [-o PATH] [-m] [in_path]
+
+    positional arguments:
+    in_path              path to the Event-B model directory or zipfile
 
     optional arguments:
-        -h, --help           show this help message and exit
-        -i PATH, --in PATH   set PATH to the Event-B model directory. Default one is
-                            the current directory
-        -o PATH, --out PATH  set PATH to the output directory. Default one is the
-                            current directory
+    -h, --help           show this help message and exit
+    -o PATH, --out PATH  PATH to the output directory
+    -m, --merge          merge all generated txt files into a single txt file
