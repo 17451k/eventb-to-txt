@@ -12,8 +12,12 @@ test_model = os.path.join(os.path.dirname(__file__), 'test_model')
 invalid_path = os.path.join(os.path.dirname(__file__), 'invalid_path')
 
 
-def test_main_ok(tmpdir):
+def test_main_ok_not_merge(tmpdir):
     main([test_model, "-o", str(tmpdir)])
+
+
+def test_main_ok_merge(tmpdir):
+    main([test_model, "-o", str(tmpdir), "-m"])
 
 
 def test_main_no_model(tmpdir):

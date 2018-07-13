@@ -15,19 +15,19 @@ class Context(EventBComponent):
     CONSTANT = 'org.eventb.core.constant'
 
     def __init__(self, context):
-        self.context = context
+        self.path = context
         self.extends = []
         self.sets = []
         self.axioms = []
         self.constants = []
 
         self.context_head = dict()
-        self.context_head['name'] = os.path.basename(os.path.splitext(self.context)[0])
+        self.context_head['name'] = os.path.basename(os.path.splitext(self.path)[0])
 
         self.__parse()
 
     def __parse(self):
-        root = ET.parse(self.context).getroot()
+        root = ET.parse(self.path).getroot()
 
         if self.COMMENT in root.attrib:
             self.context_head['comment'] = root.attrib[self.COMMENT]
@@ -75,18 +75,19 @@ class Context(EventBComponent):
 
         self.axioms.append(axiom)
 
-    def to_txt(self, out_path):
-        context_txt = os.path.join(out_path, self.context_head['name'] + ".txt")
+    def to_txt(self, out_path, merge=False):
+        exists = os.path.exists(out_path)
 
-        with open(context_txt, 'w') as f:
+        with open(out_path, 'a') as f:
+            if merge and exists:
+                f.write('\n\n')
+
             self.__print_context_head(f)
             self.__print_sets(f)
             self.__print_constants(f)
             self.__print_axioms(f)
 
             f.write('end\n')
-
-        return context_txt
 
     def __print_context_head(self, f):
         f.write('context ' + self.context_head['name'])

@@ -26,7 +26,7 @@ class Machine(EventBComponent):
     WITNESS = 'org.eventb.core.witness'
 
     def __init__(self, machine):
-        self.machine = machine
+        self.path = machine
         self.sees = []
         self.refines = ''
         self.variables = []
@@ -35,12 +35,12 @@ class Machine(EventBComponent):
         self.events = []
 
         self.machine_head = dict()
-        self.machine_head['name'] = os.path.basename(os.path.splitext(self.machine)[0])
+        self.machine_head['name'] = os.path.basename(os.path.splitext(self.path)[0])
 
         self.__parse()
 
     def __parse(self):
-        root = ET.parse(self.machine).getroot()
+        root = ET.parse(self.path).getroot()
 
         if self.COMMENT in root.attrib:
             self.machine_head['comment'] = root.attrib[self.COMMENT]
@@ -177,10 +177,13 @@ class Machine(EventBComponent):
 
         event['actions'].append(action)
 
-    def to_txt(self, out_path):
-        machine_txt = os.path.join(out_path, self.machine_head['name'] + ".txt")
+    def to_txt(self, out_path, merge=False):
+        exists = os.path.exists(out_path)
 
-        with open(machine_txt, 'w') as f:
+        with open(out_path, 'a') as f:
+            if merge and exists:
+                f.write('\n\n')
+
             self.__print_machine_head(f)
             self.__print_variables(f)
             self.__print_invariants(f)
@@ -188,8 +191,6 @@ class Machine(EventBComponent):
             self.__print_events(f)
 
             f.write('end\n')
-
-        return machine_txt
 
     def __print_machine_head(self, f):
         f.write('machine ' + self.machine_head['name'])
