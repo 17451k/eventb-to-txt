@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/17451k/eventb-to-txt.svg?branch=master)](https://travis-ci.org/17451k/eventb-to-txt)
 [![Coverage Status](https://coveralls.io/repos/github/17451k/eventb-to-txt/badge.svg?branch=master)](https://coveralls.io/github/17451k/eventb-to-txt?branch=master)
+[![PyPI pyversions](https://img.shields.io/pypi/pyversions/eventb-to-txt.svg)](https://pypi.python.org/pypi/eventb-to-txt/)
+[![PyPI version](https://badge.fury.io/py/eventb-to-txt.svg)](https://badge.fury.io/py/eventb-to-txt)
 
 # Event-B to txt converter
 

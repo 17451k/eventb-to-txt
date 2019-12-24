@@ -6,12 +6,14 @@ import setuptools
 
 setuptools.setup(
     name='eventb-to-txt',
-    version='1.1',
+    version='1.2',
     author='Ilya Shchepetkov',
     author_email='ilya.shchepetkov@yandex.ru',
     license='LICENSE.txt',
-    long_description=open('README.md').read(),
+    description="Event-B to txt converter",
+    long_description=open("README.md", encoding="utf8").read(),
     long_description_content_type="text/markdown",
+    python_requires=">=3.5",
     url="https://github.com/17451k/eventb-to-txt",
     packages=['eventb_to_txt'],
     entry_points={
@@ -21,7 +23,12 @@ setuptools.setup(
     },
     classifiers=(
         "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.5",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: Implementation :: CPython",
         "License :: OSI Approved :: MIT License",
         "Operating System :: Unix",
+        "Operating System :: MacOS :: MacOS X"
     )
 )
