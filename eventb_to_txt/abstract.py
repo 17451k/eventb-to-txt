@@ -20,6 +20,8 @@ class EventBComponent():
         if 'comment' in data:
             if data['comment'].strip():
                 f.write(' // ')
-            f.write(data['comment'])
+                f.write(data['comment'].replace('\n', ' '))
+            else:
+                f.write(data['comment'])
 
         f.write('\n')
