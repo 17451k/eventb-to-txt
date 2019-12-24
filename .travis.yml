@@ -1,12 +1,20 @@
 language: python
+
+dist: xenial
+
 python:
   - "3.5"
   - "3.6"
-  - "3.7-dev"
+  - "3.7"
+
+before_script:
+  - pip install coveralls pytest
+
 install:
-  - pip install coveralls
-script:
-  - coverage run --source eventb_to_txt -m pytest
   - pip install .
+
+script:
+  - coverage run -m pytest
+
 after_success:
   - coveralls
