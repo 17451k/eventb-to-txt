@@ -96,30 +96,30 @@ class Machine(EventBComponent):
             self.variant['comment'] = attrs[self.COMMENT]
 
     def __parse_event(self, attrs, child):
-            event = dict()
-            event['label'] = attrs[self.LABEL]
-            event['convergence'] = attrs[self.CONVERGENCE]
-            event['extended'] = attrs[self.EXTENDED]
+        event = dict()
+        event['label'] = attrs[self.LABEL]
+        event['convergence'] = attrs[self.CONVERGENCE]
+        event['extended'] = attrs[self.EXTENDED]
 
-            if self.COMMENT in attrs:
-                event['comment'] = attrs[self.COMMENT]
+        if self.COMMENT in attrs:
+            event['comment'] = attrs[self.COMMENT]
 
-            for grandchild in child:
-                grand_tag = grandchild.tag
-                grand_attrs = grandchild.attrib
+        for grandchild in child:
+            grand_tag = grandchild.tag
+            grand_attrs = grandchild.attrib
 
-                if grand_tag == self.REFINES_EVENT:
-                    self.__parse_refines(event, grand_attrs)
-                elif grand_tag == self.PARAMETER:
-                    self.__parse_parameter(event, grand_attrs)
-                elif grand_tag == self.GUARD:
-                    self.__parse_guard(event, grand_attrs)
-                elif grand_tag == self.WITNESS:
-                    self.__parse_witness(event, grand_attrs)
-                elif grand_tag == self.ACTION:
-                    self.__parse_action(event, grand_attrs)
+            if grand_tag == self.REFINES_EVENT:
+                self.__parse_refines(event, grand_attrs)
+            elif grand_tag == self.PARAMETER:
+                self.__parse_parameter(event, grand_attrs)
+            elif grand_tag == self.GUARD:
+                self.__parse_guard(event, grand_attrs)
+            elif grand_tag == self.WITNESS:
+                self.__parse_witness(event, grand_attrs)
+            elif grand_tag == self.ACTION:
+                self.__parse_action(event, grand_attrs)
 
-            self.events.append(event)
+        self.events.append(event)
 
     def __parse_refines(self, event, attrs):
         event['refines'] = attrs[self.TARGET]
