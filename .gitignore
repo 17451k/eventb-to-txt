@@ -103,3 +103,6 @@ ENV/
 
 # macOS
 .DS_STORE
+
+# VS Code
+.vscode
