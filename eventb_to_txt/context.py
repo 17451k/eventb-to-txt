@@ -139,8 +139,9 @@ class Context(EventBComponent):
         f.write('\n')
 
     def __print_axiom(self, axiom, f):
-        predicate = str.replace(axiom['predicate'], '\n', '\n' + self.TAB * 2)
-        predicate = str.replace(predicate, '\t', self.TAB)
+        predicate = axiom['predicate'].replace('\r\n', '\n')
+        predicate = predicate.replace('\n', '\n' + self.TAB * 2)
+        predicate = predicate.replace('\t', self.TAB)
 
         f.write(self.TAB)
 

@@ -235,8 +235,9 @@ class Machine(EventBComponent):
         f.write('\n')
 
     def __print_invariant(self, inv, f):
-        predicate = str.replace(inv['predicate'], '\n', '\n' + self.TAB * 2)
-        predicate = str.replace(predicate, '\t', self.TAB)
+        predicate = inv['predicate'].replace('\r\n', '\n')
+        predicate = predicate.replace('\n', '\n' + self.TAB * 2)
+        predicate = predicate.replace('\t', self.TAB)
 
         f.write(self.TAB)
 
@@ -332,8 +333,9 @@ class Machine(EventBComponent):
             additional_tab += len('theorem ')
 
         replacement = '\n' + self.TAB * 2 + ' ' * additional_tab
-        predicate = str.replace(guard['predicate'], '\n', replacement)
-        predicate = str.replace(predicate, '\t', self.TAB)
+        predicate = guard['predicate'].replace('\r\n', '\n')
+        predicate = predicate.replace('\n', replacement)
+        predicate = predicate.replace('\t', self.TAB)
 
         f.write(predicate)
 
@@ -345,8 +347,9 @@ class Machine(EventBComponent):
         additional_tab = len(witness['label']) + 2
 
         replacement = '\n' + self.TAB * 2 + ' ' * additional_tab
-        predicate = str.replace(witness['predicate'], '\n', replacement)
-        predicate = str.replace(predicate, '\t', self.TAB)
+        predicate = witness['predicate'].replace('\r\n', '\n')
+        predicate = predicate.replace('\n', replacement)
+        predicate = predicate.replace('\t', self.TAB)
 
         f.write(predicate)
 
@@ -358,8 +361,9 @@ class Machine(EventBComponent):
         additional_tab = len(action['label']) + 2
 
         replacement = '\n' + self.TAB * 2 + ' ' * additional_tab
-        assignment = str.replace(action['assignment'], '\n', replacement)
-        assignment = str.replace(assignment, '\t', self.TAB)
+        assignment = action['assignment'].replace('\r\n', '\n')
+        assignment = assignment.replace('\n', replacement)
+        assignment = assignment.replace('\t', self.TAB)
 
         f.write(assignment)
 
