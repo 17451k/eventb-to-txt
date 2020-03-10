@@ -78,25 +78,41 @@ class Model():
 
         return queue
 
-    def __get_print_queue(self):
+    def __get_obj_print_queue(self, obj):
+        if type(obj) is Machine:
+            return self.__get_machine_print_queue(obj)
+        elif type(obj) is Context:
+            return self.__get_context_print_queue(obj)
+
+    def __get_longest_print_queue(self):
         queue = []
 
         for obj in self.model_objs:
-            if type(obj) is Machine:
-                obj_queue = self.__get_machine_print_queue(obj)
-            elif type(obj) is Context:
-                obj_queue = self.__get_context_print_queue(obj)
+            obj_queue = uniqify(self.__get_obj_print_queue(obj))
 
-            obj_queue = uniqify(obj_queue)
             if len(obj_queue) >= len(queue):
                 queue = obj_queue
+
+        return queue
+
+    def __get_print_queue(self):
+        queue = self.__get_longest_print_queue()
+
+        for obj in self.model_objs:
+            obj_queue = uniqify(self.__get_obj_print_queue(obj))
+
+            for new_obj in [o for o in obj_queue if o not in queue]:
+                queue.append(new_obj)
 
         return queue
 
     def print(self, out_path, merge):
         txt_hash = dict()
 
-        queue = self.__get_print_queue()
+        if merge:
+            queue = self.__get_print_queue()
+        else:
+            queue = self.model_objs
 
         for el in queue:
             if merge:
