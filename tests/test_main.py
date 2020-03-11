@@ -26,11 +26,11 @@ def test_main_no_model():
 
 def test_main_invalid_in(tmpdir):
     with pytest.raises(SystemExit):
-        main([os.path.join(tmpdir, 'does_not_exist')])
+        main([os.path.join(str(tmpdir), 'does_not_exist')])
 
 
 def test_main_create_out(tmpdir):
-    main(['-o', os.path.join(tmpdir, 'does_not_exist')])
+    main(['-o', os.path.join(str(tmpdir), 'does_not_exist')])
 
 
 def test_main_invalid_out():

@@ -11,7 +11,7 @@ Compatible with Event-B models created with Rodin 3.0 and above.
 
 # Installation
 
-    $ pip install eventb-to-txt
+    $ python3 -m pip install eventb-to-txt
 
 # Usage
 

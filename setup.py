@@ -6,7 +6,7 @@ import setuptools
 
 setuptools.setup(
     name='eventb-to-txt',
-    version='1.2',
+    version='1.3',
     author='Ilya Shchepetkov',
     author_email='ilya.shchepetkov@yandex.ru',
     license='LICENSE.txt',
@@ -26,6 +26,7 @@ setuptools.setup(
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: Implementation :: CPython",
         "License :: OSI Approved :: MIT License",
         "Operating System :: Unix",
