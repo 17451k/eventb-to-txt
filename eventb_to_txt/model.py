@@ -2,17 +2,12 @@
 # Use of this source code is governed by the MIT license that can be
 # found in the LICENSE file.
 
+import collections
 import glob
 import os
 
 from eventb_to_txt.context import Context
 from eventb_to_txt.machine import Machine
-
-
-def uniqify(seq):
-    seen = set()
-    seen_add = seen.add
-    return [x for x in seq if not (x in seen or seen_add(x))]
 
 
 class Model():
@@ -129,9 +124,8 @@ class Model():
             leaf_queue = self.__get_obj_print_queue(leaf)
             queue.extend([x for x in leaf_queue if x not in queue])
 
-        queue = uniqify(queue)
-
-        return queue
+        # Remove duplicate entries from the queue
+        return list(collections.OrderedDict.fromkeys(queue))
 
     def print(self, out_path, merge):
         txt_hash = dict()
