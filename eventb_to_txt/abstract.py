@@ -36,3 +36,9 @@ class EventBComponent():
                 f.write(data['comment'])
 
         f.write('\n')
+
+    def _trim_trailing_whitespaces(self, path):
+        lines = ''.join([line.rstrip() + '\n' for line in open(path).readlines()])
+
+        with open(path, 'w') as f:
+            f.writelines(lines)
