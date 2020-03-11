@@ -43,8 +43,7 @@ class Context(EventBComponent):
                 self.__parse_axiom(attrs)
 
     def __parse_set(self, attrs):
-        st = dict()
-        st['id'] = attrs[self.ID]
+        st = {'id': attrs[self.ID]}
 
         if self.COMMENT in attrs:
             st['comment'] = attrs[self.COMMENT]
@@ -52,8 +51,7 @@ class Context(EventBComponent):
         self.sets.append(st)
 
     def __parse_constant(self, attrs):
-        const = dict()
-        const['id'] = attrs[self.ID]
+        const = {'id': attrs[self.ID]}
 
         if self.COMMENT in attrs:
             const['comment'] = attrs[self.COMMENT]
@@ -61,9 +59,10 @@ class Context(EventBComponent):
         self.constants.append(const)
 
     def __parse_axiom(self, attrs):
-        axiom = dict()
-        axiom['label'] = attrs[self.LABEL]
-        axiom['predicate'] = attrs[self.PREDICATE]
+        axiom = {
+            'label': attrs[self.LABEL],
+            'predicate': attrs[self.PREDICATE]
+        }
 
         if self.THEOREM in attrs:
             axiom['theorem'] = attrs[self.THEOREM]
@@ -129,7 +128,7 @@ class Context(EventBComponent):
         if not self.axioms:
             return
 
-        f.write('axioms' + '\n')
+        f.write('axioms\n')
 
         for axiom in self.axioms:
             self.__print_axiom(axiom, f)

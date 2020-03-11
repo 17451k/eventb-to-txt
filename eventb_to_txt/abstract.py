@@ -26,7 +26,7 @@ class EventBComponent():
         return self.head['name']
 
     def _print_comment(self, data, f):
-        if 'comment' in data:
+        if data.get('comment'):
             if data['comment'].strip():
                 f.write(' // ')
                 comment = data['comment'].replace('\r\n', '\n')

@@ -66,8 +66,7 @@ class Machine(EventBComponent):
         self.sees.append(attrs[self.TARGET])
 
     def __parse_variable(self, attrs):
-        var = dict()
-        var['id'] = attrs[self.ID]
+        var = {'id': attrs[self.ID]}
 
         if self.COMMENT in attrs:
             var['comment'] = attrs[self.COMMENT]
@@ -75,9 +74,10 @@ class Machine(EventBComponent):
         self.variables.append(var)
 
     def __parse_invariant(self, attrs):
-        inv = dict()
-        inv['label'] = attrs[self.LABEL]
-        inv['predicate'] = attrs[self.PREDICATE]
+        inv = {
+            'label': attrs[self.LABEL],
+            'predicate': attrs[self.PREDICATE]
+        }
 
         if self.THEOREM in attrs:
             inv['theorem'] = attrs[self.THEOREM]
@@ -93,10 +93,11 @@ class Machine(EventBComponent):
             self.variant['comment'] = attrs[self.COMMENT]
 
     def __parse_event(self, attrs, child):
-        event = dict()
-        event['label'] = attrs[self.LABEL]
-        event['convergence'] = attrs[self.CONVERGENCE]
-        event['extended'] = attrs[self.EXTENDED]
+        event = {
+            'label': attrs[self.LABEL],
+            'convergence': attrs[self.CONVERGENCE],
+            'extended': attrs[self.EXTENDED]
+        }
 
         if self.COMMENT in attrs:
             event['comment'] = attrs[self.COMMENT]
@@ -122,8 +123,7 @@ class Machine(EventBComponent):
         event['refines'] = attrs[self.TARGET]
 
     def __parse_parameter(self, event, attrs):
-        parameter = dict()
-        parameter['id'] = attrs[self.ID]
+        parameter = {'id': attrs[self.ID]}
 
         if self.COMMENT in attrs:
             parameter['comment'] = attrs[self.COMMENT]
@@ -134,9 +134,10 @@ class Machine(EventBComponent):
         event['parameters'].append(parameter)
 
     def __parse_guard(self, event, attrs):
-        guard = dict()
-        guard['label'] = attrs[self.LABEL]
-        guard['predicate'] = attrs[self.PREDICATE]
+        guard = {
+            'label': attrs[self.LABEL],
+            'predicate': attrs[self.PREDICATE]
+        }
 
         if self.THEOREM in attrs:
             guard['theorem'] = attrs[self.THEOREM]
@@ -149,9 +150,10 @@ class Machine(EventBComponent):
         event['guards'].append(guard)
 
     def __parse_witness(self, event, attrs):
-        witness = dict()
-        witness['label'] = attrs[self.LABEL]
-        witness['predicate'] = attrs[self.PREDICATE]
+        witness = {
+            'label': attrs[self.LABEL],
+            'predicate': attrs[self.PREDICATE]
+        }
 
         if self.COMMENT in attrs:
             witness['comment'] = attrs[self.COMMENT]
@@ -162,9 +164,10 @@ class Machine(EventBComponent):
         event['witnesses'].append(witness)
 
     def __parse_action(self, event, attrs):
-        action = dict()
-        action['label'] = attrs[self.LABEL]
-        action['assignment'] = attrs[self.ASSIGNMENT]
+        action = {
+            'label': attrs[self.LABEL],
+            'assignment': attrs[self.ASSIGNMENT]
+        }
 
         if self.COMMENT in attrs:
             action['comment'] = attrs[self.COMMENT]
