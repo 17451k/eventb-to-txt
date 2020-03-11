@@ -2,6 +2,8 @@
 # Use of this source code is governed by the MIT license that can be
 # found in the LICENSE file.
 
+import os
+
 
 class EventBComponent():
     COMMENT = 'org.eventb.core.comment'
@@ -15,6 +17,13 @@ class EventBComponent():
     TAB_SIZE = 4
     TAB = ' ' * TAB_SIZE
     HALFTAB = ' ' * int(TAB_SIZE / 2)
+
+    def __init__(self, component):
+        self.path = component
+        self.head = {'name': os.path.basename(os.path.splitext(self.path)[0])}
+
+    def get_component_name(self):
+        return self.head['name']
 
     def _print_comment(self, data, f):
         if 'comment' in data:

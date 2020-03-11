@@ -26,7 +26,7 @@ class Machine(EventBComponent):
     WITNESS = 'org.eventb.core.witness'
 
     def __init__(self, machine):
-        self.path = machine
+        super().__init__(machine)
         self.sees = []
         self.refines = ''
         self.variables = []
@@ -34,16 +34,13 @@ class Machine(EventBComponent):
         self.variant = dict()
         self.events = []
 
-        self.machine_head = dict()
-        self.machine_head['name'] = os.path.basename(os.path.splitext(self.path)[0])
-
         self.__parse()
 
     def __parse(self):
         root = ET.parse(self.path).getroot()
 
         if self.COMMENT in root.attrib:
-            self.machine_head['comment'] = root.attrib[self.COMMENT]
+            self.head['comment'] = root.attrib[self.COMMENT]
 
         for child in root:
             tag = child.tag
@@ -193,9 +190,9 @@ class Machine(EventBComponent):
             f.write('end\n')
 
     def __print_machine_head(self, f):
-        f.write('machine ' + self.machine_head['name'])
+        f.write('machine ' + self.get_component_name())
 
-        self._print_comment(self.machine_head, f)
+        self._print_comment(self.head, f)
 
         if self.refines:
             f.write(self.TAB + 'refines ' + self.refines + '\n')

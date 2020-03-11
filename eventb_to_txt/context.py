@@ -15,14 +15,11 @@ class Context(EventBComponent):
     CONSTANT = 'org.eventb.core.constant'
 
     def __init__(self, context):
-        self.path = context
+        super().__init__(context)
         self.extends = []
         self.sets = []
         self.axioms = []
         self.constants = []
-
-        self.context_head = dict()
-        self.context_head['name'] = os.path.basename(os.path.splitext(self.path)[0])
 
         self.__parse()
 
@@ -30,7 +27,7 @@ class Context(EventBComponent):
         root = ET.parse(self.path).getroot()
 
         if self.COMMENT in root.attrib:
-            self.context_head['comment'] = root.attrib[self.COMMENT]
+            self.head['comment'] = root.attrib[self.COMMENT]
 
         for child in root:
             tag = child.tag
@@ -90,9 +87,9 @@ class Context(EventBComponent):
             f.write('end\n')
 
     def __print_context_head(self, f):
-        f.write('context ' + self.context_head['name'])
+        f.write('context ' + self.get_component_name())
 
-        self._print_comment(self.context_head, f)
+        self._print_comment(self.head, f)
 
         if self.extends:
             f.write(self.TAB + 'extends')

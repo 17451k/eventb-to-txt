@@ -3,10 +3,8 @@
 # found in the LICENSE file.
 
 import os
-import sys
 import unittest
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from eventb_to_txt.context import Context
 from eventb_to_txt.machine import Machine
 
@@ -19,14 +17,14 @@ class EventBTestCase(unittest.TestCase):
 
     def compare_context(self, context, expected):
         c = Context(context)
-        context_txt = os.path.join(os.path.dirname(expected), c.context_head['name'] + ".txt")
+        context_txt = os.path.join(os.path.dirname(expected), c.get_component_name() + ".txt")
         c.to_txt(context_txt)
 
         self.__compare(context_txt, expected)
 
     def compare_machine(self, machine, expected):
         m = Machine(machine)
-        machine_txt = os.path.join(os.path.dirname(expected), m.machine_head['name'] + ".txt")
+        machine_txt = os.path.join(os.path.dirname(expected), m.get_component_name() + ".txt")
         m.to_txt(machine_txt)
 
         self.__compare(machine_txt, expected)

@@ -43,8 +43,9 @@ def main(args=sys.argv[1:]):
         args.in_path = tmp_in
 
     try:
-        m = Model(args.in_path)
-        m.print(args.out_path, args.merge)
+        for model_path in Model.find_model_paths(args.in_path):
+            m = Model(model_path)
+            m.print(args.out_path, args.merge)
     except RuntimeError as e:
         raise SystemExit(e)
 

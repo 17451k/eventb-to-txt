@@ -16,14 +16,37 @@ def uniqify(seq):
 
 
 class Model():
-    def __init__(self, in_path):
-        context_files = glob.glob(os.path.abspath(os.path.join(in_path, "**/*.buc")), recursive=True)
-        machine_files = glob.glob(os.path.abspath(os.path.join(in_path, "**/*.bum")), recursive=True)
+    def __init__(self, model_path):
+        context_files = self.__find_context_files(model_path)
+        machine_files = self.__find_machine_files(model_path)
 
         if not context_files and not machine_files:
             raise RuntimeError('It seems that the specified directory does not contain any Event-B models')
 
         self.model_objs = self.__parse_model(context_files, machine_files)
+
+    @staticmethod
+    def find_model_paths(in_path):
+        model_paths = set()
+
+        for path in Model.__find_context_files(in_path):
+            model_paths.add(os.path.dirname(path))
+
+        for path in Model.__find_machine_files(in_path):
+            model_paths.add(os.path.dirname(path))
+
+        if not model_paths:
+            raise RuntimeError('It seems that the specified directory does not contain any Event-B models')
+
+        return model_paths
+
+    @staticmethod
+    def __find_context_files(path):
+        return glob.glob(os.path.abspath(os.path.join(path, "**/*.buc")), recursive=True)
+
+    @staticmethod
+    def __find_machine_files(path):
+        return glob.glob(os.path.abspath(os.path.join(path, "**/*.bum")), recursive=True)
 
     def __parse_model(self, context_files, machine_files):
         model_objs = []
@@ -40,9 +63,7 @@ class Model():
 
     def __search_obj_by_name(self, name):
         for obj in self.model_objs:
-            if type(obj) is Context and obj.context_head["name"] == name:
-                return obj
-            if type(obj) is Machine and obj.machine_head["name"] == name:
+            if obj.get_component_name() == name:
                 return obj
 
         raise RuntimeError("Cant find object by name '{}'".format(name))
@@ -84,25 +105,31 @@ class Model():
         elif type(obj) is Context:
             return self.__get_context_print_queue(obj)
 
-    def __get_longest_print_queue(self):
-        queue = []
+    def __find_leaves(self):
+        leaves = []
 
         for obj in self.model_objs:
-            obj_queue = uniqify(self.__get_obj_print_queue(obj))
+            if type(obj) is Machine:
+                if obj.refines:
+                    leaves.append(obj.refines)
 
-            if len(obj_queue) >= len(queue):
-                queue = obj_queue
+                leaves.extend(obj.sees)
 
-        return queue
+            if type(obj) is Context:
+                leaves.extend(obj.extends)
+
+        return [x for x in self.model_objs if x.get_component_name() not in leaves]
 
     def __get_print_queue(self):
-        queue = self.__get_longest_print_queue()
+        leaves = self.__find_leaves()
 
-        for obj in self.model_objs:
-            obj_queue = uniqify(self.__get_obj_print_queue(obj))
+        queue = []
 
-            for new_obj in [o for o in obj_queue if o not in queue]:
-                queue.append(new_obj)
+        for leaf in leaves:
+            leaf_queue = self.__get_obj_print_queue(leaf)
+            queue.extend([x for x in leaf_queue if x not in queue])
+
+        queue = uniqify(queue)
 
         return queue
 
@@ -120,10 +147,7 @@ class Model():
 
                 txt_hash[el] = os.path.join(out_path, model_name + ".txt")
             else:
-                if type(el) is Context:
-                    txt_hash[el] = os.path.join(out_path, el.context_head['name'] + ".txt")
-                else:
-                    txt_hash[el] = os.path.join(out_path, el.machine_head['name'] + ".txt")
+                txt_hash[el] = os.path.join(out_path, el.get_component_name() + ".txt")
 
             if os.path.exists(txt_hash[el]):
                 os.remove(txt_hash[el])
