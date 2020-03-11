@@ -64,9 +64,6 @@ class Model():
         raise RuntimeError("Cant find object by name '{}'".format(name))
 
     def __get_context_print_queue(self, context):
-        if not context:
-            return []
-
         queue = []
 
         for extended in context.extends:
@@ -77,9 +74,6 @@ class Model():
         return queue
 
     def __get_machine_print_queue(self, machine):
-        if not machine:
-            return []
-
         queue = []
 
         if machine.refines:
@@ -101,6 +95,7 @@ class Model():
             return self.__get_context_print_queue(obj)
 
     def __find_leaves(self):
+        # Find model components that are not extended or refined
         leaves = []
 
         for obj in self.model_objs:
