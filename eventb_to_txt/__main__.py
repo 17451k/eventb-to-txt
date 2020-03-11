@@ -26,10 +26,12 @@ def main(args=sys.argv[1:]):
     args = parser.parse_args(args)
 
     if not os.path.exists(args.in_path):
-        sys.exit('"{}" path does not exist'.format(args.in_path))
+        sys.exit('{!r} path does not exist'.format(args.in_path))
 
-    if not os.path.exists(args.out_path):
-        sys.exit('"{}" path does not exist'.format(args.out_path))
+    try:
+        os.makedirs(args.out_path, exist_ok=True)
+    except (OSError, PermissionError) as e:
+        sys.exit("{}: Can't create output directory {!r}".format(type(e).__name__, args.out_path))
 
     is_zipfile = False
     if zipfile.is_zipfile(args.in_path):
@@ -48,6 +50,8 @@ def main(args=sys.argv[1:]):
             m.print(args.out_path, args.merge)
     except RuntimeError as e:
         raise SystemExit(e)
+    except (OSError, PermissionError) as e:
+        raise SystemExit("{}: {}".format(type(e).__name__, e))
 
     if is_zipfile:
         shutil.rmtree(args.in_path)
