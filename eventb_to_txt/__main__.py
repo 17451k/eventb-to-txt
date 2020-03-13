@@ -30,7 +30,7 @@ def main(args=sys.argv[1:]):
 
     try:
         os.makedirs(args.out_path, exist_ok=True)
-    except (OSError, PermissionError) as e:
+    except (OSError, PermissionError, TypeError, AttributeError) as e:
         sys.exit("{}: Can't create output directory {!r}".format(type(e).__name__, args.out_path))
 
     is_zipfile = False

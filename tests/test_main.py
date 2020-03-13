@@ -35,7 +35,7 @@ def test_main_create_out(tmpdir):
 
 def test_main_invalid_out():
     with pytest.raises(SystemExit):
-        main(['-o', '/'])
+        main(['-o', None])
 
 
 def test_main_zipfile(tmpdir):
