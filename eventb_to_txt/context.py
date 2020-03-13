@@ -74,7 +74,7 @@ class Context(EventBComponent):
     def to_txt(self, out_path, merge=False):
         exists = os.path.exists(out_path)
 
-        with open(out_path, 'a') as f:
+        with open(out_path, 'a', encoding="utf8") as f:
             if merge and exists:
                 f.write('\n\n')
 
