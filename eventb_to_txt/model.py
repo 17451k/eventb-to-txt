@@ -108,7 +108,10 @@ class Model():
             if type(obj) is Context:
                 leaves.extend(obj.extends)
 
-        return [x for x in self.model_objs if x.get_component_name() not in leaves]
+        leaves = [x for x in self.model_objs if x.get_component_name() not in leaves]
+        leaves.sort(key=lambda x: x.head['name'], reverse=True)
+
+        return leaves
 
     def __get_print_queue(self):
         leaves = self.__find_leaves()
