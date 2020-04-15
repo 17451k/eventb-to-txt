@@ -85,7 +85,7 @@ class Context(EventBComponent):
 
             f.write('end\n')
 
-        self._trim_trailing_whitespaces(out_path)
+        self._post_process_file(out_path)
 
     def __print_context_head(self, f):
         f.write('context ' + self.get_component_name())

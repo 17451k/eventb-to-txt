@@ -2,6 +2,7 @@
 # Use of this source code is governed by the MIT license that can be
 # found in the LICENSE file.
 
+import io
 import os
 
 
@@ -33,12 +34,15 @@ class EventBComponent():
                 comment = comment.replace('\n', ' ')
                 f.write(comment)
             else:
-                f.write(data['comment'])
+                comment = data['comment'].replace('\r\n', '\n')
+                f.write(comment)
 
         f.write('\n')
 
-    def _trim_trailing_whitespaces(self, path):
+    def _post_process_file(self, path):
+        # trim trailing whitespaces
         lines = ''.join([line.rstrip() + '\n' for line in open(path).readlines()])
 
-        with open(path, 'w') as f:
+        # save file with LF line endings
+        with io.open(path, 'w', newline='\n') as f:
             f.writelines(lines)

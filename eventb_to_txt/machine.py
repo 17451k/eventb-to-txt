@@ -192,7 +192,7 @@ class Machine(EventBComponent):
 
             f.write('end\n')
 
-        self._trim_trailing_whitespaces(out_path)
+        self._post_process_file(out_path)
 
     def __print_machine_head(self, f):
         f.write('machine ' + self.get_component_name())

@@ -6,7 +6,7 @@ import setuptools
 
 setuptools.setup(
     name='eventb-to-txt',
-    version='1.3.1',
+    version='1.3.2',
     author='Ilya Shchepetkov',
     author_email='ilya.shchepetkov@yandex.ru',
     license='LICENSE.txt',
