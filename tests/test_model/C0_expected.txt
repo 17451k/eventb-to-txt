@@ -9,11 +9,11 @@ constants
     cst2 // multiline comment
 
 axioms
-    @axm1
+    @axm1:
         cst1 ∈ set1 // comment
-    @axm2
+    @axm2:
         cst2 ∈ set2 // multiline comment
-    theorem @axm3
+    theorem @axm3:
         TRUE ≠ FALSE // comment
 
 end

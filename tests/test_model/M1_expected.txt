@@ -17,14 +17,14 @@ events
       any
         prm2
       where
-        @grd1 prm2 = 1
-        @grd2 var1 ≠ prm2
-        @grd3 var1 > 0 // multiline comment
+        @grd1: prm2 = 1
+        @grd2: var1 ≠ prm2
+        @grd3: var1 > 0 // multiline comment
       with
-        @prm1 prm1 = prm2 // comment
+        @prm1: prm1 = prm2 // comment
       then
-        @act1 var1 ≔ var1 − prm2
-        @act2 var2 ≔ {1} // multi line comment
+        @act1: var1 ≔ var1 − prm2
+        @act2: var2 ≔ {1} // multi line comment
     end
 
     event evt3

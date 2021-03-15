@@ -146,6 +146,6 @@ class Context(EventBComponent):
         if 'theorem' in axiom:
             f.write('theorem ')
 
-        f.write('@' + axiom['label'] + '\n' + self.TAB * 2 + predicate)
+        f.write('@' + axiom['label'] + ':\n' + self.TAB * 2 + predicate)
 
         self._print_comment(axiom, f)

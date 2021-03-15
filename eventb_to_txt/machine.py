@@ -246,7 +246,7 @@ class Machine(EventBComponent):
         if 'theorem' in inv:
             f.write('theorem ')
 
-        f.write('@' + inv['label'] + '\n' + self.TAB * 2 + predicate)
+        f.write('@' + inv['label'] + ':\n' + self.TAB * 2 + predicate)
 
         self._print_comment(inv, f)
 
@@ -328,7 +328,7 @@ class Machine(EventBComponent):
         if 'theorem' in guard:
             f.write('theorem ')
 
-        f.write('@' + guard['label'] + ' ')
+        f.write('@' + guard['label'] + ': ')
 
         additional_tab = len(guard['label']) + 2
         if 'theorem' in guard:
@@ -344,7 +344,7 @@ class Machine(EventBComponent):
         self._print_comment(guard, f)
 
     def __print_witness(self, witness, f):
-        f.write(self.TAB * 2 + '@' + witness['label'] + ' ')
+        f.write(self.TAB * 2 + '@' + witness['label'] + ': ')
 
         additional_tab = len(witness['label']) + 2
 
@@ -358,7 +358,7 @@ class Machine(EventBComponent):
         self._print_comment(witness, f)
 
     def __print_action(self, action, f):
-        f.write(self.TAB * 2 + '@' + action['label'] + ' ')
+        f.write(self.TAB * 2 + '@' + action['label'] + ': ')
 
         additional_tab = len(action['label']) + 2
 
