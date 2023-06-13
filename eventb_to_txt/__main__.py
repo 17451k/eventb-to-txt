@@ -36,6 +36,9 @@ def main(args=sys.argv[1:]):
         except (OSError, PermissionError, TypeError, AttributeError) as e:
             sys.exit("{}: Can't create output directory {!r}".format(type(e).__name__, args.out_path))
 
+    if os.path.isfile(args.in_path):
+        args.merge = False
+
     is_zipfile = False
     if zipfile.is_zipfile(args.in_path):
         is_zipfile = True
