@@ -26,23 +26,21 @@ class EventBComponent():
     def get_component_name(self):
         return self.head['name']
 
-    def _print_comment(self, data, f):
+    def _to_str_comment(self, data):
+        res = ''
         if data.get('comment'):
             if data['comment'].strip():
-                f.write(' // ')
+                res += ' // '
                 comment = data['comment'].replace('\r\n', '\n')
                 comment = comment.replace('\n', ' ')
-                f.write(comment)
+                res += comment
             else:
                 comment = data['comment'].replace('\r\n', '\n')
-                f.write(comment)
+                res += comment
 
-        f.write('\n')
+        res += '\n'
+        return res
 
-    def _post_process_file(self, path):
+    def _post_process_str(self, string):
         # trim trailing whitespaces
-        lines = ''.join([line.rstrip() + '\n' for line in open(path).readlines()])
-
-        # save file with LF line endings
-        with io.open(path, 'w', newline='\n') as f:
-            f.writelines(lines)
+        return ''.join([line.rstrip() + '\n' for line in string.splitlines()])

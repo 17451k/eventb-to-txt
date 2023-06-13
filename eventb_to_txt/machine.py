@@ -177,6 +177,15 @@ class Machine(EventBComponent):
 
         event['actions'].append(action)
 
+    def __str__(self):
+        res = (self.__to_str_machine_head() +
+               self.__to_str_variables() +
+               self.__to_str_invariants() +
+               self.__to_str_variant() +
+               self.__to_str_events() +
+               'end\n')
+        return self._post_process_str(res)
+
     def to_txt(self, out_path, merge=False):
         exists = os.path.exists(out_path)
 
@@ -184,151 +193,123 @@ class Machine(EventBComponent):
             if merge and exists:
                 f.write('\n\n')
 
-            self.__print_machine_head(f)
-            self.__print_variables(f)
-            self.__print_invariants(f)
-            self.__print_variant(f)
-            self.__print_events(f)
+            f.write(str(self))
 
-            f.write('end\n')
-
-        self._post_process_file(out_path)
-
-    def __print_machine_head(self, f):
-        f.write('machine ' + self.get_component_name())
-
-        self._print_comment(self.head, f)
+    def __to_str_machine_head(self):
+        res = ('machine ' + self.get_component_name() +
+               self._to_str_comment(self.head))
 
         if self.refines:
-            f.write(self.TAB + 'refines ' + self.refines + '\n')
+            res += self.TAB + 'refines ' + self.refines + '\n'
 
         if self.sees:
-            f.write(self.TAB + 'sees')
+            res += self.TAB + 'sees ' + ' '.join(self.sees) + '\n'
 
-            for seers in self.sees:
-                f.write(' ' + seers)
+        res += '\n'
+        return res
 
-            f.write('\n')
-
-        f.write('\n')
-
-    def __print_variables(self, f):
+    def __to_str_variables(self):
         if not self.variables:
-            return
+            return ''
 
-        f.write('variables' + '\n')
+        pr_line = lambda x: self.TAB + x['id'] + self._to_str_comment(x)
+        return ('variables\n' +
+                ''.join(map(pr_line, self.variables)) + '\n')
 
-        for var in self.variables:
-            f.write(self.TAB + var['id'])
-
-            self._print_comment(var, f)
-
-        f.write('\n')
-
-    def __print_invariants(self, f):
+    def __to_str_invariants(self):
         if not self.invariants:
-            return
+            return ''
 
-        f.write('invariants' + '\n')
+        return ('invariants\n' +
+                ''.join(map(lambda x: self.__to_str_invariant(x),
+                            self.invariants)) + '\n')
 
-        for inv in self.invariants:
-            self.__print_invariant(inv, f)
-
-        f.write('\n')
-
-    def __print_invariant(self, inv, f):
+    def __to_str_invariant(self, inv):
         predicate = inv['predicate'].replace('\r\n', '\n')
         predicate = predicate.replace('\n', '\n' + self.TAB * 2)
         predicate = predicate.replace('\t', self.TAB)
 
-        f.write(self.TAB)
+        res = self.TAB
 
         if 'theorem' in inv:
-            f.write('theorem ')
+            res += 'theorem '
 
-        f.write('@' + inv['label'] + ':\n' + self.TAB * 2 + predicate)
+        res += '@' + inv['label'] + ':\n' + self.TAB * 2 + predicate
+        res += self._to_str_comment(inv)
+        return res
 
-        self._print_comment(inv, f)
-
-    def __print_variant(self, f):
+    def __to_str_variant(self):
         if not self.variant:
-            return
+            return ''
 
-        f.write('variant\n')
-        f.write(self.TAB + self.variant["expression"])
+        return ('variant\n' +
+                self.TAB + self.variant["expression"] +
+                self._to_str_comment(self.variant) + '\n')
 
-        self._print_comment(self.variant, f)
-
-        f.write('\n')
-
-    def __print_events(self, f):
+    def __to_str_events(self):
         if not self.events:
-            return
+            return ''
 
-        f.write('events' + '\n')
+        return ('events\n' +
+                ''.join(map(lambda x: self.__to_str_event(x),
+                            self.events)))
 
-        for event in self.events:
-            self.__print_event(event, f)
-
-    def __print_event(self, event, f):
-        self.__print_event_head(event, f)
+    def __to_str_event(self, event):
+        res = self.__to_str_event_head(event)
 
         if 'parameters' in event:
-            f.write(self.TAB + self.HALFTAB + 'any\n')
-
-            for param in event['parameters']:
-                f.write(self.TAB * 2 + param['id'])
-
-                self._print_comment(param, f)
+            res += (self.TAB + self.HALFTAB + 'any\n' +
+                    ''.join(map(lambda x:
+                                self.TAB * 2 + x['id'] + self._to_str_comment(x),
+                                event['parameters'])))
 
         if 'guards' in event:
-            f.write(self.TAB + self.HALFTAB + 'where\n')
-
-            for guard in event['guards']:
-                self.__print_guard(guard, f)
+            res += (self.TAB + self.HALFTAB + 'where\n' +
+                    ''.join(map(lambda x: self.__to_str_guard(x),
+                                event['guards'])))
 
         if 'witnesses' in event:
-            f.write(self.TAB + self.HALFTAB + 'with\n')
-
-            for witness in event['witnesses']:
-                self.__print_witness(witness, f)
+            res += (self.TAB + self.HALFTAB + 'with\n' +
+                    ''.join(map(lambda x: self.__to_str_witness(x),
+                                event['witnesses'])))
 
         if 'actions' in event:
-            f.write(self.TAB + self.HALFTAB + 'then\n')
+            res += (self.TAB + self.HALFTAB + 'then\n' +
+                    ''.join(map(lambda x: self.__to_str_action(x),
+                                event['actions'])))
 
-            for action in event['actions']:
-                self.__print_action(action, f)
+        res += self.TAB + 'end\n\n'
+        return res
 
-        f.write(self.TAB + 'end\n\n')
-
-    def __print_event_head(self, event, f):
-        f.write(self.TAB)
+    def __to_str_event_head(self, event):
+        res = self.TAB
 
         if event['convergence'] == '1':
-            f.write("convergent ")
+            res += "convergent "
         elif event['convergence'] == '2':
-            f.write("anticipated ")
+            res += "anticipated "
 
-        f.write('event ' + event['label'])
+        res += 'event ' + event['label']
 
         if 'refines' in event:
             if event['extended'] == 'true':
-                f.write(' extends ' + event['refines'])
+                res += ' extends ' + event['refines']
             else:
-                f.write(' refines ' + event['refines'])
+                res += ' refines ' + event['refines']
         else:
             if event['extended'] == 'true':
-                f.write(' extends ' + event['label'])
+                res += ' extends ' + event['label']
 
-        self._print_comment(event, f)
+        res += self._to_str_comment(event)
+        return res
 
-    def __print_guard(self, guard, f):
-        f.write(self.TAB * 2)
+    def __to_str_guard(self, guard):
+        res = self.TAB * 2
 
         if 'theorem' in guard:
-            f.write('theorem ')
+            res += 'theorem '
 
-        f.write('@' + guard['label'] + ': ')
+        res += '@' + guard['label'] + ': '
 
         additional_tab = len(guard['label']) + 2
         if 'theorem' in guard:
@@ -339,12 +320,13 @@ class Machine(EventBComponent):
         predicate = predicate.replace('\n', replacement)
         predicate = predicate.replace('\t', self.TAB)
 
-        f.write(predicate)
+        res += predicate
 
-        self._print_comment(guard, f)
+        res += self._to_str_comment(guard)
+        return res
 
-    def __print_witness(self, witness, f):
-        f.write(self.TAB * 2 + '@' + witness['label'] + ': ')
+    def __to_str_witness(self, witness):
+        res = self.TAB * 2 + '@' + witness['label'] + ': '
 
         additional_tab = len(witness['label']) + 2
 
@@ -353,12 +335,13 @@ class Machine(EventBComponent):
         predicate = predicate.replace('\n', replacement)
         predicate = predicate.replace('\t', self.TAB)
 
-        f.write(predicate)
+        res += predicate
 
-        self._print_comment(witness, f)
+        res += self._to_str_comment(witness)
+        return res
 
-    def __print_action(self, action, f):
-        f.write(self.TAB * 2 + '@' + action['label'] + ': ')
+    def __to_str_action(self, action):
+        res = self.TAB * 2 + '@' + action['label'] + ': '
 
         additional_tab = len(action['label']) + 2
 
@@ -367,6 +350,7 @@ class Machine(EventBComponent):
         assignment = assignment.replace('\n', replacement)
         assignment = assignment.replace('\t', self.TAB)
 
-        f.write(assignment)
+        res += assignment
 
-        self._print_comment(action, f)
+        res += self._to_str_comment(action)
+        return res

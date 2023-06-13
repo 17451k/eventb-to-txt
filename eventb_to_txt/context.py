@@ -71,6 +71,14 @@ class Context(EventBComponent):
 
         self.axioms.append(axiom)
 
+    def __str__(self):
+        res = (self.__to_str_context_head() +
+               self.__to_str_sets() +
+               self.__to_str_constants() +
+               self.__to_str_axioms() +
+               'end\n')
+        return self._post_process_str(res)
+
     def to_txt(self, out_path, merge=False):
         exists = os.path.exists(out_path)
 
@@ -78,74 +86,51 @@ class Context(EventBComponent):
             if merge and exists:
                 f.write('\n\n')
 
-            self.__print_context_head(f)
-            self.__print_sets(f)
-            self.__print_constants(f)
-            self.__print_axioms(f)
+            f.write(str(self))
 
-            f.write('end\n')
-
-        self._post_process_file(out_path)
-
-    def __print_context_head(self, f):
-        f.write('context ' + self.get_component_name())
-
-        self._print_comment(self.head, f)
+    def __to_str_context_head(self):
+        res = ('context ' + self.get_component_name() +
+               self._to_str_comment(self.head))
 
         if self.extends:
-            f.write(self.TAB + 'extends')
+            res += self.TAB + 'extends ' + ' '.join(self.extends) + '\n'
 
-            for extenders in self.extends:
-                f.write(' ' + extenders)
+        res += '\n'
+        return res
 
-            f.write('\n')
-
-        f.write('\n')
-
-    def __print_sets(self, f):
+    def __to_str_sets(self):
         if not self.sets:
-            return
+            return ''
 
-        f.write('sets\n')
+        pr_line = lambda x: self.TAB + x['id'] + self._to_str_comment(x)
+        return 'sets\n' + ''.join(map(pr_line, self.sets)) + '\n'
 
-        for st in self.sets:
-            f.write(self.TAB + st['id'])
-
-            self._print_comment(st, f)
-        f.write('\n')
-
-    def __print_constants(self, f):
+    def __to_str_constants(self):
         if not self.constants:
-            return
+            return ''
 
-        f.write('constants\n')
+        pr_line = lambda x: self.TAB + x['id'] + self._to_str_comment(x)
+        return 'constants\n' + ''.join(map(pr_line, self.constants)) + '\n'
 
-        for const in self.constants:
-            f.write(self.TAB + const['id'])
-
-            self._print_comment(const, f)
-        f.write('\n')
-
-    def __print_axioms(self, f):
+    def __to_str_axioms(self):
         if not self.axioms:
-            return
+            return ''
 
-        f.write('axioms\n')
+        return ('axioms\n' +
+                ''.join(map(lambda x: self.__to_str_axiom(x),
+                            self.axioms)) +
+                '\n')
 
-        for axiom in self.axioms:
-            self.__print_axiom(axiom, f)
-        f.write('\n')
-
-    def __print_axiom(self, axiom, f):
+    def __to_str_axiom(self, axiom):
         predicate = axiom['predicate'].replace('\r\n', '\n')
         predicate = predicate.replace('\n', '\n' + self.TAB * 2)
         predicate = predicate.replace('\t', self.TAB)
 
-        f.write(self.TAB)
+        res = self.TAB
 
         if 'theorem' in axiom:
-            f.write('theorem ')
+            res += 'theorem '
 
-        f.write('@' + axiom['label'] + ':\n' + self.TAB * 2 + predicate)
-
-        self._print_comment(axiom, f)
+        res += ('@' + axiom['label'] + ':\n' + self.TAB * 2 + predicate)
+        res += self._to_str_comment(axiom)
+        return res
