@@ -28,10 +28,13 @@ def main(args=sys.argv[1:]):
     if not os.path.exists(args.in_path):
         sys.exit('{!r} path does not exist'.format(args.in_path))
 
-    try:
-        os.makedirs(args.out_path, exist_ok=True)
-    except (OSError, PermissionError, TypeError, AttributeError) as e:
-        sys.exit("{}: Can't create output directory {!r}".format(type(e).__name__, args.out_path))
+    if args.out_path == '-':
+        args.merge = True
+    else:
+        try:
+            os.makedirs(args.out_path, exist_ok=True)
+        except (OSError, PermissionError, TypeError, AttributeError) as e:
+            sys.exit("{}: Can't create output directory {!r}".format(type(e).__name__, args.out_path))
 
     is_zipfile = False
     if zipfile.is_zipfile(args.in_path):
@@ -56,7 +59,8 @@ def main(args=sys.argv[1:]):
     if is_zipfile:
         shutil.rmtree(args.in_path)
 
-    print('Txt files were successfully generated')
+    if args.out_path != '-':
+        print('Txt files were successfully generated')
 
 
 if __name__ == '__main__':
