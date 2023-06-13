@@ -12,8 +12,17 @@ from eventb_to_txt.machine import Machine
 
 class Model():
     def __init__(self, model_path):
-        context_files = self.__find_context_files(model_path)
-        machine_files = self.__find_machine_files(model_path)
+        context_files = []
+        machine_files = []
+
+        if os.path.isdir(model_path):
+            context_files = self.__find_context_files(model_path)
+            machine_files = self.__find_machine_files(model_path)
+        elif os.path.isfile(model_path):
+            if model_path.endswith('.buc'):
+                context_files = [model_path]
+            elif model_path.endswith('.bum'):
+                machine_files = [model_path]
 
         if not context_files and not machine_files:
             raise RuntimeError('It seems that the specified directory does not contain any Event-B models')
@@ -24,11 +33,15 @@ class Model():
     def find_model_paths(in_path):
         model_paths = set()
 
-        for path in Model.__find_context_files(in_path):
-            model_paths.add(os.path.dirname(path))
+        if os.path.isdir(in_path):
+            for path in Model.__find_context_files(in_path):
+                model_paths.add(os.path.dirname(path))
 
-        for path in Model.__find_machine_files(in_path):
-            model_paths.add(os.path.dirname(path))
+            for path in Model.__find_machine_files(in_path):
+                model_paths.add(os.path.dirname(path))
+        elif os.path.isfile(in_path):
+            if in_path.endswith('.buc') or in_path.endswith('.bum'):
+                model_paths.add(in_path)
 
         if not model_paths:
             raise RuntimeError('It seems that the specified directory does not contain any Event-B models')
