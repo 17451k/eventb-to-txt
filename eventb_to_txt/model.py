@@ -133,6 +133,11 @@ class Model():
         else:
             queue = self.model_objs
 
+        if out_path == '-':
+            for el in queue:
+                print(el, end='')
+            return
+
         for el in queue:
             if merge:
                 model_name = os.path.basename(os.path.dirname(el.path))
