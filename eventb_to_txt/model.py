@@ -50,6 +50,7 @@ class Model:
                 "It seems that the specified directory does not contain any Event-B models"
             )
 
+        model_paths = [os.path.abspath(p) for p in model_paths]
         return model_paths
 
     @staticmethod
