@@ -16,25 +16,43 @@ from eventb_to_txt.model import Model
 
 def main(args=sys.argv[1:]):
     parser = argparse.ArgumentParser()
-    parser.add_argument('-o', '--out', help='PATH to the output directory',
-                        dest='out_path', metavar='PATH', default=os.getcwd())
-    parser.add_argument("-m", "--merge", help="merge all generated txt files into a single txt file",
-                        action="store_true")
-    parser.add_argument(help="path to the Event-B model directory or zipfile",
-                        dest="in_path", nargs=argparse.OPTIONAL, default=os.getcwd())
+    parser.add_argument(
+        "-o",
+        "--out",
+        help="PATH to the output directory",
+        dest="out_path",
+        metavar="PATH",
+        default=os.getcwd(),
+    )
+    parser.add_argument(
+        "-m",
+        "--merge",
+        help="merge all generated txt files into a single txt file",
+        action="store_true",
+    )
+    parser.add_argument(
+        help="path to the Event-B model directory or zipfile",
+        dest="in_path",
+        nargs=argparse.OPTIONAL,
+        default=os.getcwd(),
+    )
 
     args = parser.parse_args(args)
 
     if not os.path.exists(args.in_path):
-        sys.exit('{!r} path does not exist'.format(args.in_path))
+        sys.exit("{!r} path does not exist".format(args.in_path))
 
-    if args.out_path == '-':
+    if args.out_path == "-":
         args.merge = True
     else:
         try:
             os.makedirs(args.out_path, exist_ok=True)
         except (OSError, PermissionError, TypeError, AttributeError) as e:
-            sys.exit("{}: Can't create output directory {!r}".format(type(e).__name__, args.out_path))
+            sys.exit(
+                "{}: Can't create output directory {!r}".format(
+                    type(e).__name__, args.out_path
+                )
+            )
 
     if os.path.isfile(args.in_path):
         args.merge = False
@@ -62,9 +80,9 @@ def main(args=sys.argv[1:]):
     if is_zipfile:
         shutil.rmtree(args.in_path)
 
-    if args.out_path != '-':
-        print('Txt files were successfully generated')
+    if args.out_path != "-":
+        print("Txt files were successfully generated")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main(sys.argv[1:])

@@ -10,7 +10,7 @@ from eventb_to_txt.context import Context
 from eventb_to_txt.machine import Machine
 
 
-class Model():
+class Model:
     def __init__(self, model_path):
         context_files = []
         machine_files = []
@@ -19,13 +19,15 @@ class Model():
             context_files = self.__find_context_files(model_path)
             machine_files = self.__find_machine_files(model_path)
         elif os.path.isfile(model_path):
-            if model_path.endswith('.buc'):
+            if model_path.endswith(".buc"):
                 context_files = [model_path]
-            elif model_path.endswith('.bum'):
+            elif model_path.endswith(".bum"):
                 machine_files = [model_path]
 
         if not context_files and not machine_files:
-            raise RuntimeError('It seems that the specified directory does not contain any Event-B models')
+            raise RuntimeError(
+                "It seems that the specified directory does not contain any Event-B models"
+            )
 
         self.model_objs = self.__parse_model(context_files, machine_files)
 
@@ -40,21 +42,27 @@ class Model():
             for path in Model.__find_machine_files(in_path):
                 model_paths.add(os.path.dirname(path))
         elif os.path.isfile(in_path):
-            if in_path.endswith('.buc') or in_path.endswith('.bum'):
+            if in_path.endswith(".buc") or in_path.endswith(".bum"):
                 model_paths.add(in_path)
 
         if not model_paths:
-            raise RuntimeError('It seems that the specified directory does not contain any Event-B models')
+            raise RuntimeError(
+                "It seems that the specified directory does not contain any Event-B models"
+            )
 
         return model_paths
 
     @staticmethod
     def __find_context_files(path):
-        return glob.glob(os.path.abspath(os.path.join(path, "**/*.buc")), recursive=True)
+        return glob.glob(
+            os.path.abspath(os.path.join(path, "**/*.buc")), recursive=True
+        )
 
     @staticmethod
     def __find_machine_files(path):
-        return glob.glob(os.path.abspath(os.path.join(path, "**/*.bum")), recursive=True)
+        return glob.glob(
+            os.path.abspath(os.path.join(path, "**/*.bum")), recursive=True
+        )
 
     def __parse_model(self, context_files, machine_files):
         model_objs = []
@@ -80,7 +88,9 @@ class Model():
         queue = []
 
         for extended in context.extends:
-            queue.extend(self.__get_context_print_queue(self.__search_obj_by_name(extended)))
+            queue.extend(
+                self.__get_context_print_queue(self.__search_obj_by_name(extended))
+            )
 
         queue.append(context)
 
@@ -122,7 +132,7 @@ class Model():
                 leaves.extend(obj.extends)
 
         leaves = [x for x in self.model_objs if x.get_component_name() not in leaves]
-        leaves.sort(key=lambda x: x.head['name'], reverse=True)
+        leaves.sort(key=lambda x: x.head["name"], reverse=True)
 
         return leaves
 
@@ -146,9 +156,9 @@ class Model():
         else:
             queue = self.model_objs
 
-        if out_path == '-':
+        if out_path == "-":
             for el in queue:
-                print(el, end='')
+                print(el, end="")
             return
 
         for el in queue:

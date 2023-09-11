@@ -5,20 +5,20 @@
 import setuptools
 
 setuptools.setup(
-    name='eventb-to-txt',
-    version='1.5',
-    author='Ilya Shchepetkov',
-    author_email='ilya.shchepetkov@yandex.ru',
-    license='LICENSE.txt',
+    name="eventb-to-txt",
+    version="1.5",
+    author="Ilya Shchepetkov",
+    author_email="ilya.shchepetkov@yandex.ru",
+    license="LICENSE.txt",
     description="Event-B to txt converter",
     long_description=open("README.md", encoding="utf8").read(),
     long_description_content_type="text/markdown",
     python_requires=">=3.7",
     url="https://github.com/17451k/eventb-to-txt",
-    packages=['eventb_to_txt'],
+    packages=["eventb_to_txt"],
     entry_points={
-        'console_scripts': [
-            'eventb-to-txt=eventb_to_txt.__main__:main',
+        "console_scripts": [
+            "eventb-to-txt=eventb_to_txt.__main__:main",
         ],
     },
     classifiers=(
@@ -31,6 +31,6 @@ setuptools.setup(
         "Programming Language :: Python :: Implementation :: CPython",
         "License :: OSI Approved :: MIT License",
         "Operating System :: Unix",
-        "Operating System :: MacOS :: MacOS X"
-    )
+        "Operating System :: MacOS :: MacOS X",
+    ),
 )
