@@ -8,7 +8,7 @@ setuptools.setup(
     name="eventb-to-txt",
     version="1.5",
     author="Ilya Shchepetkov",
-    author_email="ilya.shchepetkov@yandex.ru",
+    author_email="ilya.shchepetkov@gmail.com",
     license="LICENSE.txt",
     description="Event-B to txt converter",
     long_description=open("README.md", encoding="utf8").read(),
