@@ -29,6 +29,7 @@ def main(args=sys.argv[1:]):
         "--merge",
         help="merge all generated txt files into a single txt file",
         action="store_true",
+        default=False,
     )
     parser.add_argument(
         help="path to the Event-B model directory or zipfile",
@@ -53,9 +54,6 @@ def main(args=sys.argv[1:]):
                     type(e).__name__, args.out_path
                 )
             )
-
-    if os.path.isfile(args.in_path):
-        args.merge = False
 
     is_zipfile = False
     if zipfile.is_zipfile(args.in_path):
